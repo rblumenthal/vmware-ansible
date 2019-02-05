@@ -1,0 +1,26 @@
+---
+# create a new VM from a template
+
+- name: VM from template
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    vcenter_hostname: uhmc-vcenter02
+    vcenter_user: "administrator@vsphere.local"
+    vcenter_pass: "N*t15%c00l"
+    esxhost: vmhost-ucs-02.uhmc.sunysb.edu
+    #datastore: uhmc_vol_nfs_dev04
+    vmtemplate: russ2016template
+    dumpfacts: False
+  tasks:
+    - name: Mark template as VM
+      vmware_guest:
+        validate_certs: False
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_pass }}"
+        esxi_hostname: "{{ esxhost }}"
+        datacenter: SBUMC
+        is_template: False
+        state: poweredon
